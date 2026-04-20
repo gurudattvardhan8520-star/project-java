@@ -1,0 +1,77 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ * A simple Task Management System to demonstrate OOP and List handling.
+ */
+class Task {
+    private String title;
+    private boolean isCompleted;
+
+    public Task(String title) {
+        this.title = title;
+        this.isCompleted = false;
+    }
+
+    public void markComplete() {
+        this.isCompleted = true;
+    }
+
+    @Override
+    public String toString() {
+        String status = isCompleted ? "[✓]" : "[ ]";
+        return status + " " + title;
+    }
+}
+
+public class TaskManager {
+    public static void main(String[] args) {
+        ArrayList<Task> taskList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        String choice;
+
+        System.out.println("--- Developer Task Tracker ---");
+
+        while (true) {
+            System.out.println("\n1. Add Task | 2. View Tasks | 3. Complete Task | 4. Exit");
+            System.out.print("Select an option: ");
+            choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter task title: ");
+                    String title = scanner.nextLine();
+                    taskList.add(new Task(title));
+                    System.out.println("Task added successfully!");
+                    break;
+
+                case "2":
+                    System.out.println("\n--- Your Tasks ---");
+                    if (taskList.isEmpty()) System.out.println("No tasks found.");
+                    for (int i = 0; i < taskList.size(); i++) {
+                        System.out.println((i + 1) + ". " + taskList.get(i));
+                    }
+                    break;
+
+                case "3":
+                    System.out.print("Enter task number to complete: ");
+                    int index = Integer.parseInt(scanner.nextLine()) - 1;
+                    if (index >= 0 && index < taskList.size()) {
+                        taskList.get(index).markComplete();
+                        System.out.println("Task updated!");
+                    } else {
+                        System.out.println("Invalid task number.");
+                    }
+                    break;
+
+                case "4":
+                    System.out.println("Exiting... Happy coding!");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice, try again.");
+            }
+        }
+    }
+}
